@@ -16,27 +16,27 @@ services:
       - 8080:80
     volumes:
       - ./files/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ../testapp/:/usr/share/nginx/html
+      - ./testapp/:/usr/share/nginx/html
 
 ###########################
 # Setup the Flask container
 ###########################
   flask:
-    build: ../flaskapp
+    build: ./flaskapp
     ports:
       - 8050:5000
     volumes:
-      - ../flaskapp/web:/var/www/app
+      - ./flaskapp/web:/var/www/app
 
 ###########################
 # Setup the Elasticsearch container
 ###########################
-  elasticsearch1:
+  elasticsearch:
     image: elasticsearch:latest
     container_name: elasticsearch
     environment:
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dhttp.cors.enabled=true -Dhttp.cors.allow-origin=http://localhost:9100"
     ulimits:
       memlock:
         soft: -1
