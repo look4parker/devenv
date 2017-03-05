@@ -19,6 +19,16 @@ services:
       - ../testapp/:/usr/share/nginx/html
 
 ###########################
+# Setup the Flask container
+###########################
+  flask:
+    build: ../flaskapp
+    ports:
+      - 8050:5000
+    volumes:
+      - ../flaskapp/web:/var/www/app
+
+###########################
 # Setup the Elasticsearch container
 ###########################
   elasticsearch1:
@@ -41,3 +51,8 @@ services:
       - esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+
+  elasticsearch-head:
+    image:  mobz/elasticsearch-head:5
+    ports:
+      - 9100:9100
